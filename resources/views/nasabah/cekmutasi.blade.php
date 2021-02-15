@@ -158,7 +158,7 @@
 										</tbody>
 										
 									</table>
-								
+				@if($TotalCR!="" && $TotalDB!="")				
 <tr>
    
   <h4>Total Kredit : Rp. {{number_format((($TotalCR)*1000),2,',','.')}}</h4>
@@ -170,7 +170,11 @@
   <h4>Total Debit : Rp. {{number_format((($TotalDB)*1000),2,',','.')}}</h4>
 
 </tr>
-								</div>
+@else
+
+@endif
+
+</div>
 <!--  	<script src="{{asset('js/Chart.js')}}"></script>
  	<style type="text/css">
             .container {

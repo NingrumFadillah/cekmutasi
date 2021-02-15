@@ -38,6 +38,12 @@ class BTNController extends Controller
 
           // echo shell_exec("python C:/xampp/htdocs/PANINGnabil/public/bca-scrapping-master/btn.py 2>&1 $username $password $jawaban1 $jawaban2 $jawaban3 $nasabah");//local
 
+if (file_exists(public_path() . "/".$bulan."_".$nasabah."_data_btn_new.json")) {
+return redirect()->back()->with('alert','Koneksi Gagal');
+}
+
+else{
+
 $timeA =time();
 
           echo shell_exec(public_path() . "/Python27/python.exe ". public_path() . "/bca-scrapping-master/btn.py 2>&1 $username $password $jawaban1 $jawaban2 $jawaban3 $nasabah $bulan"); //hosting
@@ -71,25 +77,22 @@ if ($interval>=30) {
     $password = "";
     $dbname = "CekMutasi-Database";
     $tanggal = strtr($d[0], '/', '-');
-    $tanggal = date('d-m-Y',strtotime($tanggal));
+    $tanggal = date('Y-m-d',strtotime($tanggal));
+    // dd($tanggal);
     // $tanggal = date("Y-m-d",strtotime($tanggal));
     $tanggal_diakses = date("Y-m-d");
 
 // Create connection
 
     $conn = mysqli_connect($servername, $username, $password, $dbname);
-   //  if ($d[5]=="DB") {
-   //    $sql =  "INSERT INTO mutasi_btn (tanggal,nominal_mutasi,tipe_mutasi,total,bank,tanggal_diakses,id_nasabah) VALUES ('$tanggal','$d[2]','$d[5]','$d[4]','btn','$tanggal_diakses','$nasabah')";
-   //  }
-   // else{
-   //   $sql =  "INSERT INTO mutasi_btn (tanggal,nominal_mutasi,tipe_mutasi,total,bank,tanggal_diakses,id_nasabah) VALUES ('$tanggal','$d[3]','$d[5]','$d[4]','btn','$tanggal_diakses','$nasabah')";
-   // }
-    // echo $d[0];
+
     $a = $d[3];
-    $asu = substr($a,9);
-    $asu2 = substr($a,10);
-    // dd($asu);
-if ( $asu == "CR" || $asu2 == "CR") {
+    $tipene = substr($a,9);
+    $tipene2 = substr($a,10);
+    $tipene3 = substr($a,11);
+    $tipene4 = substr($a,12);
+    // dd($tipene);
+if ( $tipene == "CR" || $tipene2 == "CR" || $tipene3 == "CR" || $tipene4 == "CR") {
 
      $ds = substr($d[3],0,-2);
      // dd($d[1]);
@@ -117,7 +120,6 @@ if ( $asu == "CR" || $asu2 == "CR") {
 
 }
 
-
 return redirect('/cekmutasiku')->with('alert','Berhasil Menambahkan Data');
     
 }
@@ -127,6 +129,9 @@ return redirect()->back()->with('alert','Koneksi Gagal');
 
 
 }
+
+}
+
 }
 
     /**

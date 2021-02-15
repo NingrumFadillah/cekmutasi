@@ -13,11 +13,11 @@
 								<span>{{ Auth::user()->role }} </span>
 							</a>
 						</li>
-				<!-- 		<li>
+						<li>
 							<a href="{{ url('nasabah') }}" class="{{ request()->is('nasabah') ? 'active' : '' }}"><i class="lnr lnr-home"></i> 
 								<span>Nasabah</span>
 							</a>
-						</li> -->
+						</li>
 						<!-- <li>
 							<a href="https://www.google.com/search?safe=strict&rlz=1C1GCEA_enID907ID907&biw=1366&bih=657&sxsrf=ALeKk00MZcvFMTlytsEdbwKN5Yvm4ksO8Q:1603901494800&q=atm+bca+terdekat&npsic=0&rflfq=1&rlha=0&rllag=-8211130,114374650,339&tbm=lcl&ved=2ahUKEwiooujW1tfsAhXr5nMBHWI9CxQQtgN6BAgMEAc&rldoc=1#rlfi=hd:;si:;mv:[[-8.204014232338979,114.43193830632322],[-8.247507434520164,114.35074247502439],null,[-8.22576143002765,114.3913403906738],14]" class="{{ request()->is('nasabah') ? 'active' : '' }}"><i class="fa fa-window-restore fa-2x"></i> 
 								<span> ATM BCA TERDEKAT</span>

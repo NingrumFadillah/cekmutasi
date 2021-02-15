@@ -26,12 +26,12 @@ $id_nasabah = Auth::user()->id;
 $data_bca = DB::table('mutasi_nasabah')
 ->where('id_nasabah',$id_nasabah)
 ->where('bank','bca')
-       ->groupBy(['tanggal','tipe_mutasi','tanggal_diakses','nominal_mutasi'])->get();
+       ->groupBy(['tanggal','tipe_mutasi','nominal_mutasi'])->get();
  
 $data_btn = DB::table('mutasi_nasabah')
 ->where('id_nasabah',$id_nasabah)
 ->where('bank','btn')
-       ->groupBy(['tanggal','tipe_mutasi','tanggal_diakses','nominal_mutasi'])->take(10)->get();
+       ->groupBy(['tanggal','tipe_mutasi','nominal_mutasi'])->take(10)->get();
 
        $data_report = $data_bca->merge($data_btn);
        $data_report = $data_report->sortBy('tanggal');
@@ -85,15 +85,30 @@ $id_nasabah = Auth::user()->id;
    $filter = $request->search_param;
    $tanggal_mulai_cetak = $request->tanggal_mulai;
    $tanggal_akhir_cetak = $request->tanggal_akhir;
-$data_report = DB::table('mutasi_nasabah')->where('id_nasabah',$id_nasabah);
 
-  $TotalCR = DB::table('mutasi_nasabah')
+$data_bca = DB::table('mutasi_nasabah')
+->where('id_nasabah',$id_nasabah)
+->where('bank','bca')
+       ->groupBy(['tanggal','tipe_mutasi','nominal_mutasi'])->get();
+ 
+$data_btn = DB::table('mutasi_nasabah')
+->where('id_nasabah',$id_nasabah)
+->where('bank','btn')
+       ->groupBy(['tanggal','tipe_mutasi','nominal_mutasi'])->take(10)->get();
+
+       $data_report = $data_bca->merge($data_btn);
+       $data_report = $data_report->sortBy('tanggal');
+
+
+     $TotalCR = DB::table('mutasi_nasabah')
 ->where('id_nasabah',$id_nasabah)
 ->where('tipe_mutasi','CR');
 
     $TotalDB = DB::table('mutasi_nasabah')
 ->where('id_nasabah',$id_nasabah)
 ->where('tipe_mutasi','DB');
+
+
 
   if ($filter =='all' ) {
      $data_report = $data_report;
@@ -143,13 +158,13 @@ $data = DB::table('mutasi_nasabah')
 
      }
 
-  $data_report = $data_report->get();
+  // $data_report = $data_report->get();
+// dd($TotalCR);
   
   $TotalCR = $TotalCR->get(DB::raw('SUM(nominal_mutasi) AS TotalKredit'));
   $TotalDB = $TotalDB->get(DB::raw('SUM(nominal_mutasi) AS TotalDebit'));
 $TotalCR = substr($TotalCR,16,-2);
 $TotalDB = substr($TotalDB,15,-2);
-
         return view('nasabah.cekmutasi_filter',compact('mutasi_bca','mutasi_btn','data_report','tanggal_mulai_cetak','tanggal_akhir_cetak','filter','TotalCR','TotalDB'))->with('data', json_encode($array));
 }
 
@@ -166,7 +181,8 @@ $nasabah = Auth::user()->nama;
 $tanggal = date("Y-m-d");
    $filter = $request->filter;
 
-$data_report = DB::table('mutasi_nasabah');
+$data_report = DB::table('mutasi_nasabah')->where('id_nasabah',$id_nasabah);
+
 
 
   if ($filter =='all' ) {
@@ -209,7 +225,7 @@ $nasabah = Auth::user()->nama;
 $tanggal = date("Y-m-d");
    $filter = $request->filter;
 
-$data_report = DB::table('mutasi_nasabah');
+$data_report = DB::table('mutasi_nasabah')->where('id_nasabah',$id_nasabah);
 
 
   if ($filter =='all' ) {

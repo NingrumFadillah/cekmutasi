@@ -37,9 +37,12 @@ class BCAController extends Controller
       $id_nasabah = Auth::user()->id;
    $bulan = date("M-Y");
     // echo shell_exec("python C:/xampp/htdocs/PANINGnabil/public/bca-scrapping-master/bca.py 2>&1 $username $password $nasabah"); //local
+if (file_exists(public_path() . "/".$bulan."_".$nasabah."_data_bca_new.json")) {
+return redirect()->back()->with('alert','Koneksi Gagal');
+}
 
+else{
 
-// if (file_exists( public_path() . "/".$nasabah."_data_bca_new.json")) {
 $timeA =time();
 
 echo shell_exec(public_path() . "/Python27/python.exe ". public_path() . "/bca-scrapping-master/bca.py 2>&1 $username $password $nasabah $bulan"); //hosting
@@ -105,6 +108,10 @@ else{
 return redirect()->back()->with('alert','Koneksi Gagal');
 
 }
+
+}
+
+
 }
 
     /**
